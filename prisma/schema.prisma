@@ -1,0 +1,136 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Category {
+  NEW_TECHNOLOGIES
+  NEW_PROJECTS
+  BYLAWS_REGULATIONS
+  LESSONS_LEARNED
+  GENERAL
+}
+
+enum Region {
+  GLOBAL
+  INDIA
+}
+
+enum OriginType {
+  PUBLICATION
+  SOCIAL
+}
+
+enum EnrichmentStatus {
+  PENDING
+  ENRICHED
+  FAILED
+}
+
+enum SubscriptionStatus {
+  PENDING  // signed up, access granted, no real payment collected yet (pre-Stripe interim state)
+  ACTIVE   // paid and current (set by a future Stripe webhook) or a manually granted free account
+  CANCELED
+}
+
+model Subscriber {
+  id                String   @id @default(cuid())
+  email             String   @unique
+  status            SubscriptionStatus @default(PENDING)
+  isFreeAccess      Boolean  @default(false) // true for permanently comped accounts (e.g. the site owner)
+  stripeCustomerId  String?  @unique
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  magicLinkTokens   MagicLinkToken[]
+}
+
+model MagicLinkToken {
+  id           String    @id @default(cuid())
+  token        String    @unique
+  email        String
+  subscriberId String
+  subscriber   Subscriber @relation(fields: [subscriberId], references: [id])
+  expiresAt    DateTime
+  usedAt       DateTime?
+  createdAt    DateTime  @default(now())
+
+  @@index([email])
+}
+
+model Source {
+  id            String   @id @default(cuid())
+  name          String   @unique
+  feedUrl       String   @unique
+  siteUrl       String
+  region        Region
+  originType    OriginType @default(PUBLICATION)
+  handle        String?
+  enabled       Boolean  @default(true)
+  lastFetchedAt DateTime?
+  lastSuccessAt DateTime?
+  lastError     String?
+  consecutiveFailures Int @default(0)
+  createdAt     DateTime @default(now())
+
+  articles Article[]
+
+  @@index([enabled])
+}
+
+model Article {
+  id             String   @id @default(cuid())
+  title          String
+  sourceId       String
+  source         Source   @relation(fields: [sourceId], references: [id])
+  sourceName     String
+  sourceUrl      String   @unique
+  canonicalHash  String   @unique
+  publishedAt    DateTime
+  ingestedAt     DateTime @default(now())
+  enrichedAt     DateTime?
+
+  category       Category?
+  region         Region
+  summary        String?
+  rawExcerpt     String?
+
+  viralityScore  Int?
+  viralityReason String?
+
+  originType     OriginType @default(PUBLICATION)
+  originHandle   String?
+
+  imageUrl       String?
+  videoUrl       String?
+
+  enrichmentStatus EnrichmentStatus @default(PENDING)
+  enrichmentAttempts Int @default(0)
+
+  mergedSourceUrls String[] @default([])
+  mergedSourceNames String[] @default([])
+
+  ingestionLatencyMs BigInt?
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([region, category])
+  @@index([publishedAt])
+  @@index([viralityScore])
+  @@index([enrichmentStatus])
+}
+
+model IngestionRun {
+  id            String   @id @default(cuid())
+  startedAt     DateTime @default(now())
+  finishedAt    DateTime?
+  sourcesPolled Int      @default(0)
+  itemsFound    Int      @default(0)
+  itemsNew      Int      @default(0)
+  errors        Int      @default(0)
+}
