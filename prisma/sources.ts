@@ -127,6 +127,32 @@ export const SEED_SOURCES: SeedSource[] = [
     region: "GLOBAL",
   },
 
+  // ---- How-to / instructional, verified working RSS feeds (added 2026-09-21) ----
+  {
+    name: "Family Handyman",
+    feedUrl: "https://www.familyhandyman.com/feed/",
+    siteUrl: "https://www.familyhandyman.com",
+    region: "GLOBAL",
+  },
+  {
+    name: "Fine Homebuilding",
+    feedUrl: "https://www.finehomebuilding.com/feed",
+    siteUrl: "https://www.finehomebuilding.com",
+    region: "GLOBAL",
+  },
+  {
+    name: "Ask the Builder",
+    feedUrl: "https://www.askthebuilder.com/feed/",
+    siteUrl: "https://www.askthebuilder.com",
+    region: "GLOBAL",
+  },
+  {
+    name: "Bob Vila",
+    feedUrl: "https://www.bobvila.com/feed/",
+    siteUrl: "https://www.bobvila.com",
+    region: "GLOBAL",
+  },
+
   // ---- India, verified working RSS feeds ----
   {
     name: "ConstructionWorld.in",
@@ -178,3 +204,10 @@ export const SEED_SOURCES: SeedSource[] = [
 //   - Kitchen & Bath Design News, Paint & Coatings Industry, ISHN (safety),
 //     Door and Window Market, USGlass, Equipment World                      -> 403 (bot-blocked)
 //   - Construction Equipment magazine, For Construction Pros equipment tag -> 404
+//
+// How-to/instructional candidates tested 2026-09-21 that did NOT pan out:
+//   - This Old House                                   -> 200 but not real RSS/XML
+//   - The Spruce, DIY Network, HGTV, Houzz             -> 403/404 (bot-blocked or no feed)
+//   - Construction Junkie                              -> 404
+//   - Popular Mechanics (Home), Engineering.com         -> valid feeds, but skipped: mostly
+//     product-review/general-industry content rather than instructional guides

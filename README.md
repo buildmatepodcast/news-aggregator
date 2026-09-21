@@ -115,6 +115,21 @@ description in `src/lib/ingestion/llmEnrich.ts`). It wins over
 product/material rather than a project, company strategy, or software/AI
 method in the abstract.
 
+**How-to / instructional content** (added 2026-09-21): Family Handyman, Fine
+Homebuilding, Ask the Builder, and Bob Vila — all genuinely instructional
+publications (verified by reading actual article titles, not just that the
+feed parses), added on top of JLC Online and Green Building Advisor, which
+already run a lot of practical technique content.
+
+This content lives under `LESSONS_LEARNED`, which deliberately covers two
+different things under one label: the original meaning (collapses, failures,
+litigation, post-mortems, safety case studies) AND "how to"/"how it works"
+guides — tiling, masonry, woodworking, painting, choosing a material, hiring
+an architect/structural engineer, etc. **Format wins over topic** for the
+how-to case: "how to install tiles properly" is tagged `LESSONS_LEARNED`, not
+`BUILDING_MATERIALS`, because the instructional format is what matters for
+this category, not the material it happens to cover.
+
 Social media ingestion (X/Instagram) was deliberately left out of v1 — see
 the brief's "credibility filter" requirement — because getting reliable API
 access at any real polling frequency now costs real money (X API) or

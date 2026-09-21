@@ -50,6 +50,10 @@ const CATEGORY_KEYWORDS: Record<Exclude<CategoryValue, "GENERAL">, string[]> = {
     "safety code",
     "legislation",
   ],
+  // Deliberately covers two different things under one label: real
+  // post-mortem/failure content, AND instructional "how to"/"how it works"
+  // guides (format wins over topic here - "how to install tiles" belongs
+  // here, not under BUILDING_MATERIALS, because of the how-to format).
   LESSONS_LEARNED: [
     "collapse",
     "failure",
@@ -64,6 +68,24 @@ const CATEGORY_KEYWORDS: Record<Exclude<CategoryValue, "GENERAL">, string[]> = {
     "fined",
     "negligence",
     "defect",
+    "how to",
+    "how-to",
+    "how do you",
+    "how does a",
+    "how it works",
+    "step by step",
+    "step-by-step",
+    "guide to",
+    "beginner's guide",
+    "diy",
+    "tips for",
+    "how to choose",
+    "how to select",
+    "how to install",
+    "how to build",
+    "how to lay",
+    "how to polish",
+    "how to hire",
   ],
   // Deliberately broad - see the BUILDING_MATERIALS description in
   // llmEnrich.ts's tool schema for the full scope this is meant to mirror.
