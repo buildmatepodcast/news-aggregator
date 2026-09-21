@@ -97,13 +97,23 @@ bottom of that file with the reason they failed, so a future pass can retry
 them or add a scraper instead of an RSS pull.
 
 **Building materials** (added 2026-09-21): For Construction Pros, Glass
-Magazine, Wood Central, and Green Building Advisor — same vetting standard,
-same file, with the ones that didn't pan out (Global Cement, World Cement,
-CompositesWorld, Materials Today, and others) documented right below the
-working list. Their stories get the new `BUILDING_MATERIALS` category when
-they're about a specific material's production, supply, pricing, or a
-research/R&D breakthrough — separate from `NEW_TECHNOLOGIES`, which stays for
-construction methods/tech broadly (AI, robotics, BIM, 3D printing).
+Magazine, Wood Central, Green Building Advisor, Kitchen & Bath Business,
+Hardware Retailing, Floor Covering News, and JLC Online — same vetting
+standard, same file, with the ones that didn't pan out (Global Cement, World
+Cement, CompositesWorld, Materials Today, Kitchen & Bath Design News, Paint &
+Coatings Industry, and others) documented right below the working list.
+
+`BUILDING_MATERIALS` is a deliberately broad category — structural materials,
+steel, concrete, glass/facades, doors/windows/partitions, kitchens,
+wardrobes, architectural hardware, stone/marble/aggregates, advanced
+composites (GFRP/CFRP), construction equipment/tools/safety gear, tiles,
+bathware/sanitaryware, bricks/blocks, wood, flooring/carpets/upholstery,
+paints/waterproofing, pools/saunas, plus R&D breakthroughs and business news
+about companies in this space (full list documented in the tool-schema
+description in `src/lib/ingestion/llmEnrich.ts`). It wins over
+`NEW_TECHNOLOGIES` whenever the story's real subject is a physical
+product/material rather than a project, company strategy, or software/AI
+method in the abstract.
 
 Social media ingestion (X/Instagram) was deliberately left out of v1 — see
 the brief's "credibility filter" requirement — because getting reliable API

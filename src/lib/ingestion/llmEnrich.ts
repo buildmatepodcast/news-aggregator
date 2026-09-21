@@ -29,7 +29,7 @@ const ENRICH_TOOL = {
       relevant: {
         type: "boolean",
         description:
-          "false if this item is NOT actually about construction, architecture, interior design, civil engineering, building materials, or real estate. Site scope is narrow: exclude automotive/vehicle stories (cars, motorcycles, road tests), fashion/beauty content, and general financial/market/economy news (stock prices, GDP, interest rates, IPOs) that only mentions construction in passing without being about a specific building, project, material, company, or regulation. When in doubt about a borderline design/art/culture piece from an architecture outlet, prefer relevant: true.",
+          "false if this item is NOT actually about construction, architecture, interior design, civil engineering, building materials, or real estate. Building materials scope is deliberately broad and IS relevant: structural materials, steel, concrete, glass/facades, doors/windows/partitions, kitchens, wardrobes, hardware, stone/marble/aggregates, composites (GFRP/CFRP/etc.), equipment/tools/safety gear, tiles, bathware/sanitaryware, bricks/blocks, wood, flooring/carpets/upholstery fabric, paints/waterproofing, pools/saunas, and the businesses/research behind any of these. Site scope excludes: automotive/vehicle stories (cars, motorcycles, road tests), fashion/beauty/jewellery/watch product content, and general financial/market/economy news (stock prices, GDP, interest rates, IPOs) that only mentions construction in passing without being about a specific building, project, material, company, or regulation. When in doubt about a borderline design/art/culture piece from an architecture outlet, prefer relevant: true.",
       },
       exclude_reason: {
         type: "string",
@@ -39,7 +39,7 @@ const ENRICH_TOOL = {
         type: "string",
         enum: CATEGORIES as unknown as string[],
         description:
-          "BUILDING_MATERIALS is for stories about a specific material (cement, steel, timber, glass, concrete, composites, insulation, etc.) - its production, supply, pricing, research/R&D breakthroughs, or a company's material innovation. Use the other categories as before.",
+          "BUILDING_MATERIALS covers a wide, deliberately broad scope - any story centered on a specific building product, material, equipment, or the businesses/technology behind them, including: structural materials, construction steel, concrete and concrete technologies, glass and facades, uPVC/aluminium doors/windows/partitions, kitchens, wardrobes, hardware and architectural hardware, marble/stone/sand/aggregates, fly ash and GGBS, GFRP/CFRP/carbon nanotubes and other advanced/composite materials, construction equipment/tools/testing machines/safety gear, tiles, bathware/sanitaryware, formwork, bricks and blocks, wood, upholstery fabrics, carpets and flooring, interior-design materials and finishes, paints/polishes/varnishes/waterproofing, swimming pools/saunas/shower cubicles, and both new-age and traditional materials generally - plus R&D/research breakthroughs and business news (funding, expansion, M&A) about companies in this space. Use the other categories as before; BUILDING_MATERIALS wins over GENERAL or NEW_TECHNOLOGIES whenever the story's real subject is a physical product or material rather than a project, company strategy, or software/AI method in the abstract.",
       },
       region: { type: "string", enum: ["GLOBAL", "INDIA"] },
       summary: {

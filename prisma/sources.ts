@@ -102,6 +102,30 @@ export const SEED_SOURCES: SeedSource[] = [
     siteUrl: "https://www.greenbuildingadvisor.com",
     region: "GLOBAL",
   },
+  {
+    name: "Kitchen & Bath Business",
+    feedUrl: "https://kbbonline.com/feed/",
+    siteUrl: "https://kbbonline.com",
+    region: "GLOBAL",
+  },
+  {
+    name: "Hardware Retailing",
+    feedUrl: "https://www.hardwareretailing.com/feed/",
+    siteUrl: "https://www.hardwareretailing.com",
+    region: "GLOBAL",
+  },
+  {
+    name: "Floor Covering News",
+    feedUrl: "https://www.fcnews.net/feed/",
+    siteUrl: "https://www.fcnews.net",
+    region: "GLOBAL",
+  },
+  {
+    name: "JLC Online",
+    feedUrl: "https://www.jlconline.com/feed/",
+    siteUrl: "https://www.jlconline.com",
+    region: "GLOBAL",
+  },
 
   // ---- India, verified working RSS feeds ----
   {
@@ -148,3 +172,9 @@ export const SEED_SOURCES: SeedSource[] = [
 //   - Materials Today                                                      -> connection failed
 //   - Fastmarkets RISI, Recycling Product News                             -> 200 but not real RSS/XML
 //   - Aggregates Manager (aggman.com)                                      -> 200 but empty channel, no items
+//
+// Building-materials sub-vertical candidates tested 2026-09-21 (kitchens/bath,
+// paints, equipment, safety, glass, hardware) that did NOT pan out:
+//   - Kitchen & Bath Design News, Paint & Coatings Industry, ISHN (safety),
+//     Door and Window Market, USGlass, Equipment World                      -> 403 (bot-blocked)
+//   - Construction Equipment magazine, For Construction Pros equipment tag -> 404

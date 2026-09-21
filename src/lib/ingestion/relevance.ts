@@ -96,6 +96,26 @@ const CONSTRUCTION_ANCHOR_KEYWORDS = [
   "interior design",
   "urban planning",
   "rera",
+  // Building-materials scope (see BUILDING_MATERIALS category) - keeps a
+  // materials-business story like "cement maker's Q2 earnings" from being
+  // caught by the generic financial-news filter below.
+  "glass",
+  "facade",
+  "tile",
+  "marble",
+  "aggregate",
+  "brick",
+  "timber",
+  "plywood",
+  "hardware",
+  "sanitaryware",
+  "sanitary ware",
+  "kitchen",
+  "wardrobe",
+  "flooring",
+  "carpet",
+  "paint",
+  "waterproofing",
 ];
 
 function hasAny(text: string, keywords: string[]): string | null {
