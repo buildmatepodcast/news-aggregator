@@ -1,15 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import type { Prisma, Category } from "@prisma/client";
+import type { Prisma, Category, Region } from "@prisma/client";
 import { getAccessFromRequest } from "@/lib/access";
 import { TOP_STORY_THRESHOLD } from "@/components/tabs";
+import { REGIONS } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
   const params = req.nextUrl.searchParams;
 
-  const region = params.get("region"); // "GLOBAL" | "INDIA" | null (both)
+  const region = params.get("region"); // one of RegionValue | null (all regions)
   const category = params.get("category"); // one of CategoryValue | null
   const sort = params.get("sort") ?? "newest"; // "newest" | "viral"
   const q = params.get("q")?.trim();
@@ -23,8 +24,8 @@ export async function GET(req: NextRequest) {
     excluded: false, // off-topic (cars/vehicles, fashion, generic financial news, etc.)
   };
 
-  if (region === "GLOBAL" || region === "INDIA") {
-    where.region = region;
+  if (region && (REGIONS as readonly string[]).includes(region)) {
+    where.region = region as Region;
   }
   if (category) {
     where.category = category as Category;

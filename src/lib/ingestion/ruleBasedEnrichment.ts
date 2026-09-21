@@ -185,6 +185,75 @@ const INDIA_HINTS = [
   "lakh",
 ];
 
+// Keyword hints for the rule-based fallback only - the LLM path (primary,
+// used whenever ANTHROPIC_API_KEY is set) makes this call with real
+// judgment instead. Two keyword hits required before overriding the
+// source's default region, same threshold as India, to avoid false
+// positives from an incidental mention.
+const REGION_HINTS: Partial<Record<RegionValue, string[]>> = {
+  SOUTH_ASIA: [
+    "bangladesh",
+    "dhaka",
+    "pakistan",
+    "karachi",
+    "lahore",
+    "islamabad",
+    "nepal",
+    "kathmandu",
+    "sri lanka",
+    "colombo",
+  ],
+  SOUTHEAST_ASIA: [
+    "indonesia",
+    "jakarta",
+    "philippines",
+    "manila",
+    "vietnam",
+    "hanoi",
+    "ho chi minh",
+    "thailand",
+    "bangkok",
+    "myanmar",
+    "yangon",
+  ],
+  MIDDLE_EAST: [
+    "uae",
+    "dubai",
+    "abu dhabi",
+    "saudi arabia",
+    "riyadh",
+    "jeddah",
+    "qatar",
+    "doha",
+    "gulf",
+    "kuwait",
+    "bahrain",
+  ],
+  SUB_SAHARAN_AFRICA: [
+    "kenya",
+    "nairobi",
+    "nigeria",
+    "lagos",
+    "abuja",
+    "ethiopia",
+    "addis ababa",
+    "tanzania",
+    "dar es salaam",
+  ],
+  LATIN_AMERICA: [
+    "brazil",
+    "sao paulo",
+    "rio de janeiro",
+    "mexico",
+    "mexico city",
+    "colombia",
+    "bogota",
+    "buenos aires",
+    "argentina",
+  ],
+  CHINA: ["china", "chinese", "beijing", "shanghai", "shenzhen", "hong kong", "guangzhou"],
+};
+
 export function detectCategory(text: string): CategoryValue {
   const lower = text.toLowerCase();
   let best: CategoryValue = "GENERAL";
@@ -203,10 +272,22 @@ export function detectCategory(text: string): CategoryValue {
 }
 
 export function detectRegionOverride(text: string, sourceRegion: RegionValue): RegionValue {
-  if (sourceRegion === "INDIA") return "INDIA";
+  // A source dedicated to a specific region (e.g. an India-only or
+  // Middle-East-only outlet) is trusted as-is; only GLOBAL-sourced items
+  // get re-examined for a more specific region.
+  if (sourceRegion !== "GLOBAL") return sourceRegion;
+
   const lower = text.toLowerCase();
-  const hits = INDIA_HINTS.filter((k) => lower.includes(k)).length;
-  return hits >= 2 ? "INDIA" : "GLOBAL";
+
+  const indiaHits = INDIA_HINTS.filter((k) => lower.includes(k)).length;
+  if (indiaHits >= 2) return "INDIA";
+
+  for (const [region, keywords] of Object.entries(REGION_HINTS) as [RegionValue, string[]][]) {
+    const hits = keywords.filter((k) => lower.includes(k)).length;
+    if (hits >= 2) return region;
+  }
+
+  return "GLOBAL";
 }
 
 export function ruleBasedBaseScore(text: string): { score: number; reason: string } {

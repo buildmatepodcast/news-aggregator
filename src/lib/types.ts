@@ -20,8 +20,28 @@ export const CATEGORY_LABELS: Record<CategoryValue, string> = {
   GENERAL: "General",
 };
 
-export const REGIONS = ["GLOBAL", "INDIA"] as const;
+export const REGIONS = [
+  "GLOBAL",
+  "INDIA",
+  "SOUTH_ASIA",
+  "SOUTHEAST_ASIA",
+  "MIDDLE_EAST",
+  "SUB_SAHARAN_AFRICA",
+  "LATIN_AMERICA",
+  "CHINA",
+] as const;
 export type RegionValue = (typeof REGIONS)[number];
+
+export const REGION_LABELS: Record<RegionValue, string> = {
+  GLOBAL: "Global",
+  INDIA: "India",
+  SOUTH_ASIA: "South Asia",
+  SOUTHEAST_ASIA: "Southeast Asia",
+  MIDDLE_EAST: "Middle East",
+  SUB_SAHARAN_AFRICA: "Sub-Saharan Africa",
+  LATIN_AMERICA: "Latin America",
+  CHINA: "China",
+};
 
 export type ArticleCard = {
   id: string;

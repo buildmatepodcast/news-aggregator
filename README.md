@@ -1,7 +1,36 @@
 # Built — Global Construction, Architecture & Interior Design News
 
 Near-real-time news aggregator for construction, architecture, and interior
-design, with a dedicated India tab and a 1–10 virality score on every item.
+design, with dedicated regional tabs and a 1–10 virality score on every item.
+
+## Regions
+
+Eight regions, each an exact `Region` enum value an article is tagged with
+(not a filter over a single "Global" bucket) — GLOBAL, INDIA, SOUTH_ASIA
+(Bangladesh/Pakistan/Nepal/Sri Lanka), SOUTHEAST_ASIA (Indonesia/Philippines/
+Vietnam/Thailand/Myanmar), MIDDLE_EAST (UAE/Saudi Arabia/Qatar/the Gulf),
+SUB_SAHARAN_AFRICA (Kenya/Nigeria/Ethiopia/Tanzania), LATIN_AMERICA (Brazil/
+Mexico/Colombia), and CHINA. These six were added 2026-09-21 because they
+share India's core construction DNA (RCC frame + masonry infill, similar
+cement/steel supply chains, labor-intensive site practices) or have close
+practical ties to it (the Gulf's FIDIC-contract overlap with Indian firms,
+India's material/expertise exports to Africa). GLOBAL is what's left over —
+primarily US/Europe/international coverage — once a story doesn't belong to
+a more specific region.
+
+Region is set per-article, not per-source: the LLM (primary path) reads the
+actual story and can override a source's default region — a GLOBAL-tagged
+outlet running a story specifically about Lagos or Ho Chi Minh City gets
+tagged accordingly. The rule-based fallback (`detectRegionOverride` in
+`src/lib/ingestion/ruleBasedEnrichment.ts`) does the same with country/city
+keyword lists when no `ANTHROPIC_API_KEY` is set.
+
+Regional sources were added the same way as everything else in this repo —
+tested for a real feed, not assumed (see `prisma/sources.ts`). Most of these
+are general national outlets rather than construction-specific trade press
+(few exist with working RSS per country), so they lean on the relevance
+filter to surface only the construction/real-estate-relevant items, the same
+pattern already used for India's Business Standard/ET Realty.
 
 ## How it works
 

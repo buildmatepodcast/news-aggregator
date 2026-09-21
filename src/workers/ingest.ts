@@ -5,6 +5,7 @@ import { canonicalHash } from "@/lib/ingestion/dedupe";
 import { extractMediaFromFeedItem, fetchOgMedia } from "@/lib/ingestion/media";
 import { sendAlert } from "@/lib/alert";
 import { FEED_USER_AGENT } from "@/lib/ingestion/userAgent";
+import type { RegionValue } from "@/lib/types";
 
 const parser = new Parser({
   timeout: 15000,
@@ -46,7 +47,7 @@ async function ingestSource(source: {
   id: string;
   name: string;
   feedUrl: string;
-  region: "GLOBAL" | "INDIA";
+  region: RegionValue;
 }) {
   let itemsFound = 0;
   let itemsNew = 0;

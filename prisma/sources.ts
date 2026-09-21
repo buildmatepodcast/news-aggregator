@@ -11,7 +11,15 @@ export type SeedSource = {
   name: string;
   feedUrl: string;
   siteUrl: string;
-  region: "GLOBAL" | "INDIA";
+  region:
+    | "GLOBAL"
+    | "INDIA"
+    | "SOUTH_ASIA"
+    | "SOUTHEAST_ASIA"
+    | "MIDDLE_EAST"
+    | "SUB_SAHARAN_AFRICA"
+    | "LATIN_AMERICA"
+    | "CHINA";
 };
 
 export const SEED_SOURCES: SeedSource[] = [
@@ -68,7 +76,7 @@ export const SEED_SOURCES: SeedSource[] = [
     name: "Construction Week (ME)",
     feedUrl: "https://www.constructionweekonline.com/feed",
     siteUrl: "https://www.constructionweekonline.com",
-    region: "GLOBAL",
+    region: "MIDDLE_EAST", // retagged 2026-09-21 - it's specifically Middle East construction news
   },
   {
     name: "Wallpaper*",
@@ -178,6 +186,81 @@ export const SEED_SOURCES: SeedSource[] = [
     siteUrl: "https://realty.economictimes.indiatimes.com",
     region: "INDIA",
   },
+
+  // ---- South Asia (non-India), verified working RSS feeds (added 2026-09-21) ----
+  // General national outlets, not construction-specific - the relevance
+  // filter (same as India's ET Realty/Business Standard pattern) picks out
+  // the construction/real-estate-relevant items from broader coverage.
+  {
+    name: "The Daily Star (Bangladesh)",
+    feedUrl: "https://www.thedailystar.net/rss.xml",
+    siteUrl: "https://www.thedailystar.net",
+    region: "SOUTH_ASIA",
+  },
+  {
+    name: "Dawn (Pakistan)",
+    feedUrl: "https://www.dawn.com/feeds/business",
+    siteUrl: "https://www.dawn.com",
+    region: "SOUTH_ASIA",
+  },
+  {
+    name: "The Kathmandu Post (Nepal)",
+    feedUrl: "https://kathmandupost.com/rss",
+    siteUrl: "https://kathmandupost.com",
+    region: "SOUTH_ASIA",
+  },
+
+  // ---- Southeast Asia, verified working RSS feeds (added 2026-09-21) ----
+  {
+    name: "BusinessWorld (Philippines)",
+    feedUrl: "https://www.bworldonline.com/feed/",
+    siteUrl: "https://www.bworldonline.com",
+    region: "SOUTHEAST_ASIA",
+  },
+  {
+    name: "VnExpress International (Vietnam)",
+    feedUrl: "https://e.vnexpress.net/rss/news.rss",
+    siteUrl: "https://e.vnexpress.net",
+    region: "SOUTHEAST_ASIA",
+  },
+
+  // ---- Middle East / Gulf, verified working RSS feeds (added 2026-09-21) ----
+  {
+    name: "Arabian Business",
+    feedUrl: "https://www.arabianbusiness.com/feed",
+    siteUrl: "https://www.arabianbusiness.com",
+    region: "MIDDLE_EAST",
+  },
+
+  // ---- Sub-Saharan Africa, verified working RSS feeds (added 2026-09-21) ----
+  {
+    name: "BusinessDay (Nigeria)",
+    feedUrl: "https://businessday.ng/feed/",
+    siteUrl: "https://businessday.ng",
+    region: "SUB_SAHARAN_AFRICA",
+  },
+
+  // ---- Latin America, verified working RSS feeds (added 2026-09-21) ----
+  {
+    name: "The Rio Times (Brazil)",
+    feedUrl: "https://www.riotimesonline.com/feed/",
+    siteUrl: "https://www.riotimesonline.com",
+    region: "LATIN_AMERICA",
+  },
+  {
+    name: "Mexico News Daily",
+    feedUrl: "https://mexiconewsdaily.com/feed/",
+    siteUrl: "https://mexiconewsdaily.com",
+    region: "LATIN_AMERICA",
+  },
+
+  // ---- China, verified working RSS feeds (added 2026-09-21) ----
+  {
+    name: "South China Morning Post (News)",
+    feedUrl: "https://www.scmp.com/rss/91/feed",
+    siteUrl: "https://www.scmp.com",
+    region: "CHINA",
+  },
 ];
 
 // Candidates from the original brief that were tested and did NOT return a
@@ -211,3 +294,16 @@ export const SEED_SOURCES: SeedSource[] = [
 //   - Construction Junkie                              -> 404
 //   - Popular Mechanics (Home), Engineering.com         -> valid feeds, but skipped: mostly
 //     product-review/general-industry content rather than instructional guides
+//
+// New-region candidates tested 2026-09-21 that did NOT pan out:
+//   - Dhaka Tribune, Sunday Times (Sri Lanka), Jakarta Globe, Myanmar Times  -> 404
+//   - Daily FT (Sri Lanka), Nation Thailand, MEED, Daily Mirror (Sri Lanka) -> 200 but not real RSS/XML
+//   - Gulf Construction Online, Gulf News, Khaleej Times, Zawya,
+//     Kenya Business Daily, BNamericas, China Daily, Caixin Global,
+//     The Guardian Nigeria                                                  -> 403/404
+//   - Construction Review Online                                            -> valid feed, but skipped:
+//     despite the name, its actual content is US-focused (Burbank Airport,
+//     Alabama bridge, Colorado Springs), not Africa-specific as assumed
+//   - Buenos Aires Times                                                    -> valid feed, but skipped:
+//     general national news (sports/politics), no construction relevance
+//     found in a manual content check

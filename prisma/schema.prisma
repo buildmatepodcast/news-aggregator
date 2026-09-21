@@ -19,6 +19,12 @@ enum Category {
 enum Region {
   GLOBAL
   INDIA
+  SOUTH_ASIA          // Bangladesh, Pakistan, Nepal, Sri Lanka
+  SOUTHEAST_ASIA       // Indonesia, Philippines, Vietnam, Thailand, Myanmar
+  MIDDLE_EAST          // UAE, Saudi Arabia, Qatar and the wider Gulf
+  SUB_SAHARAN_AFRICA   // Kenya, Nigeria, Ethiopia, Tanzania, etc.
+  LATIN_AMERICA        // Brazil, Mexico, Colombia, etc.
+  CHINA
 }
 
 enum OriginType {

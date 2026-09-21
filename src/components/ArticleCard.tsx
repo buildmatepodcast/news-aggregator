@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import type { ArticleCard as ArticleCardType } from "@/lib/types";
-import { CATEGORY_LABELS } from "@/lib/types";
+import { CATEGORY_LABELS, REGION_LABELS } from "@/lib/types";
 import { ViralityBadge } from "./ViralityBadge";
 import { relativeTime } from "@/lib/time";
 import { toEmbedUrl } from "@/lib/video";
@@ -125,7 +125,7 @@ export function ArticleCard({
             </span>
           )}
           <span className="rounded-full border border-[var(--border)] px-2 py-0.5 text-[11px] text-[var(--muted)]">
-            {article.region === "INDIA" ? "India" : "Global"}
+            {REGION_LABELS[article.region]}
           </span>
           {extraSources > 0 && (
             <span className="text-[11px] text-[var(--muted)]">
