@@ -191,6 +191,15 @@ export const SEED_SOURCES: SeedSource[] = [
   // General national outlets, not construction-specific - the relevance
   // filter (same as India's ET Realty/Business Standard pattern) picks out
   // the construction/real-estate-relevant items from broader coverage.
+  // KNOWN LIMITATION: unlike India, no dedicated real-estate/property RSS
+  // vertical was found for Bangladesh, Pakistan, or Nepal after two rounds
+  // of searching (tried Daily Star/TBS property & economy sections, Dawn's
+  // business feed, Business Recorder, Republica, Himalayan Times - none
+  // panned out, see the failed-candidates list below). A manual content
+  // check of 30 real ingested items from these two sources found ~0%
+  // construction relevance (crime, cricket, fuel prices, cotton, stock
+  // market) - so this tab will be sparser than India's until a better
+  // source is found. The region-tagging itself is verified correct.
   {
     name: "The Daily Star (Bangladesh)",
     feedUrl: "https://www.thedailystar.net/rss.xml",
@@ -307,3 +316,11 @@ export const SEED_SOURCES: SeedSource[] = [
 //   - Buenos Aires Times                                                    -> valid feed, but skipped:
 //     general national news (sports/politics), no construction relevance
 //     found in a manual content check
+//
+// South Asia property/real-estate vertical search, round 2, tested 2026-09-21:
+//   - Daily Star BD property section, Dawn business-property               -> 404
+//   - Business Recorder (Pakistan) canonical feed path                     -> 404
+//   - Republica (Nepal), Himalayan Times (Nepal), Nepal Business Herald    -> 404/connection failed
+//   - TBS News (Bangladesh) economy, Business Recorder business-finance    -> valid feeds, but skipped:
+//     same general-business profile as Dawn/Daily Star (banking profits,
+//     currency, gold prices, IPOs) - no better construction-relevance fit
