@@ -12,6 +12,7 @@ enum Category {
   NEW_PROJECTS
   BYLAWS_REGULATIONS
   LESSONS_LEARNED
+  BUILDING_MATERIALS
   GENERAL
 }
 
@@ -111,6 +112,13 @@ model Article {
   enrichmentStatus EnrichmentStatus @default(PENDING)
   enrichmentAttempts Int @default(0)
 
+  // Off-topic filter (cars/vehicles, fashion/beauty, generic financial news
+  // not tied to construction/real-estate/building-materials, etc.) - excluded
+  // articles are still stored (so we don't re-ingest/re-score them) but the
+  // API never returns them. See src/lib/ingestion/relevance.ts.
+  excluded       Boolean  @default(false)
+  excludedReason String?
+
   mergedSourceUrls String[] @default([])
   mergedSourceNames String[] @default([])
 
@@ -123,6 +131,7 @@ model Article {
   @@index([publishedAt])
   @@index([viralityScore])
   @@index([enrichmentStatus])
+  @@index([excluded])
 }
 
 model IngestionRun {

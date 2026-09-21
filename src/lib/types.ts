@@ -6,6 +6,7 @@ export const CATEGORIES = [
   "NEW_PROJECTS",
   "BYLAWS_REGULATIONS",
   "LESSONS_LEARNED",
+  "BUILDING_MATERIALS",
   "GENERAL",
 ] as const;
 export type CategoryValue = (typeof CATEGORIES)[number];
@@ -15,6 +16,7 @@ export const CATEGORY_LABELS: Record<CategoryValue, string> = {
   NEW_PROJECTS: "New Projects",
   BYLAWS_REGULATIONS: "Bylaws & Regulations",
   LESSONS_LEARNED: "Lessons Learned",
+  BUILDING_MATERIALS: "Building Materials",
   GENERAL: "General",
 };
 

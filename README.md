@@ -23,6 +23,36 @@ design, with a dedicated India tab and a 1–10 virality score on every item.
   ingestion health via `/api/health`. The frontend polls every 30s and
   prepends genuinely new items without a full reload.
 
+## Relevance filter (off-topic content)
+
+Design/architecture outlets (Dezeen, Designboom, Wallpaper*) also cover
+automotive, fashion, and beauty content, and Indian business outlets carry
+general market/economy news that mentions "construction" only in passing.
+Both leaked into the feed before this filter existed. Every article now gets
+an `excluded`/`excludedReason` verdict (`src/lib/ingestion/relevance.ts` +
+the `relevant`/`exclude_reason` fields in the LLM tool schema), and
+`/api/articles` never returns `excluded: true` rows.
+
+- **Primary path**: the LLM decides relevance using actual context — it can
+  tell a Rolex watch story apart from a Snøhetta-designed coffee bar even
+  though both might sit under a magazine's "travel" URL section.
+- **Safety net**: a small set of unambiguous URL path segments
+  (`/fashion-beauty/`, `/beauty/`, `/entertaining/`, `/food-drink/`) force-
+  exclude regardless of the LLM verdict — cheap and reliable for outlets that
+  sort content into clean topic verticals. Verticals that turned out to mix
+  in real design coverage (`/travel/`, `/transportation/`,
+  `/watches-jewellery/`) were deliberately left out of this list after an
+  early pass wrongly excluded a Snøhetta cafe and an Estúdio Campana airport
+  lounge — see the comment in `relevance.ts` for the full story.
+- **Rule-based fallback** (`checkExclusion` in the same file): keyword lists
+  for vehicles, fashion/beauty, and generic financial news (only flagged when
+  NOT paired with a construction/real-estate anchor term, so "Fed raises
+  rates but construction has a bigger problem" correctly survives). Used
+  when no `ANTHROPIC_API_KEY` is set, same fallback pattern as scoring.
+- **`scripts/cleanup-relevance.ts`**: retroactively applies the rule-based
+  check to already-ingested articles without re-spending LLM calls on the
+  whole backlog. Safe to re-run any time the keyword lists change.
+
 ## Subscription paywall
 
 "Top Stories" (virality score ≥ `TOP_STORY_THRESHOLD` in
@@ -65,6 +95,15 @@ domain in `prisma/sources.ts` returned a valid RSS/Atom feed as of
 Architectural Record, Reuters/AP public RSS, PIB, Realty+) are listed at the
 bottom of that file with the reason they failed, so a future pass can retry
 them or add a scraper instead of an RSS pull.
+
+**Building materials** (added 2026-09-21): For Construction Pros, Glass
+Magazine, Wood Central, and Green Building Advisor — same vetting standard,
+same file, with the ones that didn't pan out (Global Cement, World Cement,
+CompositesWorld, Materials Today, and others) documented right below the
+working list. Their stories get the new `BUILDING_MATERIALS` category when
+they're about a specific material's production, supply, pricing, or a
+research/R&D breakthrough — separate from `NEW_TECHNOLOGIES`, which stays for
+construction methods/tech broadly (AI, robotics, BIM, 3D printing).
 
 Social media ingestion (X/Instagram) was deliberately left out of v1 — see
 the brief's "credibility filter" requirement — because getting reliable API

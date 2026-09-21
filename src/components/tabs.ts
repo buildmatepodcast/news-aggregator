@@ -5,6 +5,7 @@ export type TabId =
   | "new-projects"
   | "bylaws"
   | "lessons"
+  | "materials"
   | "viral";
 
 export const TABS: {
@@ -18,6 +19,7 @@ export const TABS: {
   { id: "new-projects", label: "New Projects", params: { category: "NEW_PROJECTS" } },
   { id: "bylaws", label: "Bylaws & Regulations", params: { category: "BYLAWS_REGULATIONS" } },
   { id: "lessons", label: "Lessons Learned", params: { category: "LESSONS_LEARNED" } },
+  { id: "materials", label: "Building Materials", params: { category: "BUILDING_MATERIALS" } },
   { id: "viral", label: "Top Stories 🔥", params: { viralOnly: true } },
 ];
 

@@ -65,6 +65,27 @@ const CATEGORY_KEYWORDS: Record<Exclude<CategoryValue, "GENERAL">, string[]> = {
     "negligence",
     "defect",
   ],
+  BUILDING_MATERIALS: [
+    "cement",
+    "concrete",
+    "steel",
+    "timber",
+    "lumber",
+    "glass panel",
+    "insulation",
+    "aggregate",
+    "composite material",
+    "rebar",
+    "admixture",
+    "mass timber",
+    "glulam",
+    "cross-laminated",
+    "recycled material",
+    "material innovation",
+    "brick",
+    "asphalt",
+    "gypsum",
+  ],
 };
 
 const SHOCK_KEYWORDS = [

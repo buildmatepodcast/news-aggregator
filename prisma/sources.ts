@@ -77,6 +77,32 @@ export const SEED_SOURCES: SeedSource[] = [
     region: "GLOBAL",
   },
 
+  // ---- Building materials, verified working RSS feeds (added 2026-09-21) ----
+  {
+    name: "For Construction Pros",
+    feedUrl: "https://www.forconstructionpros.com/rss",
+    siteUrl: "https://www.forconstructionpros.com",
+    region: "GLOBAL",
+  },
+  {
+    name: "Glass Magazine",
+    feedUrl: "https://www.glassmagazine.com/rss.xml",
+    siteUrl: "https://www.glassmagazine.com",
+    region: "GLOBAL",
+  },
+  {
+    name: "Wood Central",
+    feedUrl: "https://woodcentral.com.au/feed/",
+    siteUrl: "https://woodcentral.com.au",
+    region: "GLOBAL",
+  },
+  {
+    name: "Green Building Advisor",
+    feedUrl: "https://www.greenbuildingadvisor.com/feed",
+    siteUrl: "https://www.greenbuildingadvisor.com",
+    region: "GLOBAL",
+  },
+
   // ---- India, verified working RSS feeds ----
   {
     name: "ConstructionWorld.in",
@@ -114,3 +140,11 @@ export const SEED_SOURCES: SeedSource[] = [
 //   - PIB (pib.gov.in)              -> RSS endpoints return HTML, likely needs
 //                                      session/referer handling; scrape candidate
 //   - Realty+ (realtyplusmag.com)   -> 403 on /feed and /rss (bot-blocked)
+//
+// Building-materials candidates tested 2026-09-21 that did NOT pan out:
+//   - Global Cement, World Cement, Concrete Products, The Construction Index,
+//     Roads and Bridges, Steel Times International, Fastener+Fixing, MBI    -> 404 on every path tried
+//   - CompositesWorld                                                       -> 405 (feed path rejects GET)
+//   - Materials Today                                                      -> connection failed
+//   - Fastmarkets RISI, Recycling Product News                             -> 200 but not real RSS/XML
+//   - Aggregates Manager (aggman.com)                                      -> 200 but empty channel, no items

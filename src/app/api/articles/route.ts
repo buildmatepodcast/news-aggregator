@@ -20,6 +20,7 @@ export async function GET(req: NextRequest) {
 
   const where: Prisma.ArticleWhereInput = {
     enrichmentStatus: { in: ["ENRICHED", "FAILED"] }, // don't show un-enriched placeholders
+    excluded: false, // off-topic (cars/vehicles, fashion, generic financial news, etc.)
   };
 
   if (region === "GLOBAL" || region === "INDIA") {

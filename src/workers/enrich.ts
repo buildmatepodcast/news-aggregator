@@ -6,6 +6,7 @@ import {
   ruleBasedBaseScore,
   fallbackSummary,
 } from "@/lib/ingestion/ruleBasedEnrichment";
+import { checkExclusion } from "@/lib/ingestion/relevance";
 import { computeFinalVirality } from "@/lib/virality";
 import { sendAlert } from "@/lib/alert";
 
@@ -36,7 +37,7 @@ export async function runEnrichmentCycle() {
         sourceRegion: article.region,
       });
 
-      let category, region, summary, baseScore, reasonNote;
+      let category, region, summary, baseScore, reasonNote, excluded, excludedReason;
 
       if (llmResult) {
         category = llmResult.category;
@@ -44,6 +45,18 @@ export async function runEnrichmentCycle() {
         summary = llmResult.summary;
         baseScore = llmResult.baseScore;
         reasonNote = llmResult.reason;
+        excluded = !llmResult.relevant;
+        excludedReason = llmResult.excludeReason;
+
+        // URL-path is a very cheap, very reliable signal (see relevance.ts) -
+        // let it override even an LLM "relevant" verdict as a safety net.
+        if (!excluded) {
+          const urlCheck = checkExclusion("", article.sourceUrl);
+          if (urlCheck.excluded) {
+            excluded = true;
+            excludedReason = urlCheck.reason;
+          }
+        }
       } else {
         category = detectCategory(text);
         region = detectRegionOverride(text, article.region);
@@ -51,6 +64,9 @@ export async function runEnrichmentCycle() {
         const rb = ruleBasedBaseScore(text);
         baseScore = rb.score;
         reasonNote = rb.reason;
+        const exclusion = checkExclusion(text, article.sourceUrl);
+        excluded = exclusion.excluded;
+        excludedReason = exclusion.reason;
       }
 
       const { score, boosts } = computeFinalVirality({
@@ -69,6 +85,8 @@ export async function runEnrichmentCycle() {
           summary,
           viralityScore: score,
           viralityReason: fullReason,
+          excluded,
+          excludedReason,
           enrichmentStatus: "ENRICHED",
           enrichedAt: new Date(),
           enrichmentAttempts: { increment: 1 },
